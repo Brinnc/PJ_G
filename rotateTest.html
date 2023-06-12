@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>무한회전</title>
+    <style>
+        h1 {
+            width: 100px;
+            height: 150px;
+            background: yellow;
+            font-size: 95px;
+            position: absolute;
+            left: 400px;
+            top: 100px;
+            text-align: center;
+        }
+    </style>
+    <script>
+        let r = 0; //각도를 누적시킬 전역변수
+        let flag=true; //회전방향을 결정짓는 논리값
+
+        //물체를 회전시키기
+
+        function rotate() {
+            //console.log("rotate() 호출..");
+            r++;
+
+            /*
+            if (flag) {//우측으로 돌때
+                r++;
+            }else{//좌측으로 돌때
+                r--;
+            }
+            if(r%360==0){
+                flag=!flag;
+            }
+            */
+
+            let h1 = document.querySelector("h1");
+            h1.style.transform = "rotate(" + r + "deg)";
+
+            /* 내가한거
+            if(flag==false){
+                h1.style.transform = "rotate(" + r-- + "deg)";
+            }else{
+                h1.style.transform = "rotate(" + r++ + "deg)";
+            }
+            flag=!flag;
+            */
+
+            /*
+            if (r >= 180) {
+                r--;
+            } else if(r<=180){
+                r++;
+            }
+            */
+
+        }
+
+
+
+        addEventListener("load", function () {
+            setInterval("rotate()", 10);
+        });
+    </script>
+</head>
+
+<body>
+    <h1>★</h1>
+</body>
+
+</html>

@@ -1,0 +1,3 @@
+class Ramen extends GameObject{
+
+}

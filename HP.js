@@ -1,0 +1,3 @@
+class HP extends GameObject{
+    
+}

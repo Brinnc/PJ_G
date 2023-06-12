@@ -1,0 +1,3 @@
+class Digimon extends GameObject{
+
+}

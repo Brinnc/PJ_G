@@ -13,6 +13,7 @@ class Digimon extends GameObject {
 
         this.r = this.r + 20;
         this.img.style.transform = "rotate(" + this.r + "deg)";
+
     }
 
 }

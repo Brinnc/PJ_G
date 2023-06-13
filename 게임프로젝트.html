@@ -7,18 +7,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>내껨</title>
     <style>
-        body{
+        body {
             margin: 0%;
         }
 
         #wrapper {
             width: 1280px;
             height: 1000px;
-            background: url(./images/nintendo_rm.png);
+            background-color: black;
+            /*background: url(./images/nintendo_rm.png);*/
             background-repeat: no-repeat;
             background-size: 1280px 1000px;
             margin: auto;
             text-align: center;
+            position: relative;
         }
 
         #info {
@@ -33,7 +35,7 @@
             box-sizing: border-box;
         }
 
-        #logo{
+        #logo {
             width: 100px;
             height: 100px;
             margin-top: 650px;
@@ -62,6 +64,8 @@
     <script src="Pokemon.js"></script>
     <script src="Boss.js"></script>
     <script src="Digimon.js"></script>
+    <script src="PokemonImg_Stage.js"></script>
+    <script src="DigimonImg_Stage.js"></script>
     <script>
         let info; //상단바
         let hp; //hp하트
@@ -72,6 +76,7 @@
         let boss; //보스몬스터
         let digimon; //함정몬스터
         let ramen; //hp포션
+        let index = 0; //스테이지 인덱스에 접근할 변수
 
         let bgY = 0; //stage배경의 y축 값 변수
 
@@ -79,26 +84,35 @@
 
 
         //포켓몬 이미지경로 배열
-        let pokemonImg = ["po1.png", "po2.png", "po3.png", "po4.png", "po5.png", "po6.png", "po7.png", "po8.png", "po9.png", "po10.png",
-                                     "po1.png", "po2.png", "po3.png", "po4.png", "po5.png", "po6.png", "po7.png", "po8.png", "po9.png", "po10.png"
-                                    ];
+        //let pokemonImg = ["po1.png", "po2.png", "po3.png", "po4.png", "po5.png", "po6.png", "po7.png", "po8.png", "po9.png", "po10.png"];
         let pokemonArray = []; //포켓몬 인스턴스를 담는 배열
 
+        let bossImg = ["boss1.png", "boss2.png", "거북왕.png", "리자몽.png", "이상해꽃.png"]; //보스 이미지 경로 배열
         let bossArray = []; //보스 인스턴스 배열
 
         //디지몬 이미지경로 배열
-        let digimonImg = ["digi1.png", "digi2.png", "digi3.png"];
+        //let digimonImg = ["digi1.png", "digi2.png"];
         let digimonArray = []; //디지몬 인스턴스를 담는 배열
 
+        //HP를 모을 배열
+        let hpArray = []; //크기x, 에러남;
+        let h = -1; //hpArray에 접근할 index
+
+        //HP포션을 배열에 넣기
+        let ramenArray = [];
+
         //스테이지 배경 이미지 배열
-        let bgArray=[];
+        let bgArray = ["bg1.jpg", "bg2.png", "임시배경.png", "임시배경.png", "임시배경.png"];
 
         let flag = true;
 
 
+        //---------------------------------------------------------------------------------------------------------
+
+
         //1) 배경을 세팅함
         function setBG() {
-            stage.style.background = "url(./images/bg1.jpg)";
+            stage.style.background = "url(./images/" + bgArray[index] + ")";
             stage.style.backgroundSize = "500px 800px";
         }
 
@@ -128,38 +142,25 @@
             ballArray.push(monsterBall);
         }
 
-        //4) 포켓몬 생성 
-        //>> ★Q.스테이지 당 포켓몬을 정해놓고.....(ex.등장하는 종류는 5마리, 5마리가 반복해서 총 20마리가 나오게 할 경우)
+        //4) 포켓몬 생성 : 스테이지 당 등장하는 포켓몬의 수가 다르게
         function createPokemon() {
-            for (let i = 0; i < pokemonImg.length; i++) {
+            for (let i = 0; i < pokemonImg_Stage[index].length; i++) {
                 //container, src, width, height, x, y, velX, velY
-                //최초 등장시 랜덤한 x축값 위치
-                pokemon = new Pokemon(stage, "./images/" + pokemonImg[i], 50, 50, getRandomByRange(10, 450), getRandomByRange(-1000, 0), 0, 3);
+                //최초 등장시 랜덤한 x축, y축값 위치, 속도
+                pokemon = new Pokemon(stage, "./images/" + pokemonImg_Stage[index][i], 50, 50, getRandomByRange(10, 450), getRandomByRange(-1000, 0), 0, getRandomByRange(2, 5));
 
                 //생성된 포켓몬을 배열에 담기
                 pokemonArray.push(pokemon);
             }
         }
 
-        //7) 디~지~몬친구들, 디지몬도 돌게할까???
+        //7) 디지몬 생성
         function createDigimon() {
-            for (let i = 0; i < digimonImg.length; i++) {
+            for (let i = 0; i < digimonImg_Stage[index].length; i++) {
                 //container, src, width, height, x, y, velX, velY
-                digimon = new Digimon(stage, "./images/" + digimonImg[i], 50, 50, getRandomByRange(10, 450), getRandomByRange(-1000, 0), 0, 3);
+                digimon = new Digimon(stage, "./images/" + digimonImg_Stage[index][i], 50, 50, getRandomByRange(10, 450), getRandomByRange(-1000, 0), 0, 3);
 
                 digimonArray.push(digimon);
-            }
-        }
-
-        //언젠가쓰겠지속도조절함수
-        function dropPokemon() {
-            for (let i = 0; i < pokemonArray.length; i++) {
-                pokemonArray[i].velY = 10;
-            }
-        }
-        function dropDigimon() {
-            for (let i = 0; i < digimonArray.length; i++) {
-                digimonArray[i].velY = 10;
             }
         }
 
@@ -170,22 +171,47 @@
             //x축 왔다갔다..? 움직이도록 하려면
             //보스몬스터는 일반포켓몬이 다나오고 나서 나와야할텐데
 
-            boss = new Boss(stage, "./images/boss1.png", 100, 100, getRandomByRange(10, 450), getRandomByRange(-1100, -1000), 0, 2);
-            //bossArray.push(boss);
+            boss = new Boss(stage, "./images/" + bossImg[index], 100, 100, getRandomByRange(10, 450), getRandomByRange(-1100, -1000), 0, 2);
+            bossArray.push(boss);
         }
 
-        //-) HP 생성해 상단바 인포에 표시
-        function createHP() {
-            for (let i = 1; i <= 8; i++) {
+        //8) HP 생성해 인포에 표시
+        function setHP() {
+            for (let i = 1; i <= 7; i++) {
                 //container, src, width, height, x, y, velX, velY
-                hp = new HP(info, "./images/heart.png", 50, 50, 50, i*50, 0, 0);
+                hp = new HP(info, "./images/heart.png", 50, 50, 50, i * 50, 0, 0);
 
+                hpArray.push(hp);
             }
         }
 
         //6) HP포션(컵라면) 생성
         function createRamen() {
-            ramen = new Ramen(stage, "./images/ramen.png", 50, 50, getRandomByRange(10, 450), getRandomByRange(-1000, -800), 0, 4);
+            ramen = new Ramen(stage, "./images/ramen.png", 50, 50, getRandomByRange(10, 450), getRandomByRange(-1000, -800), 0, 3);
+            ramenArray.push(ramen);
+        }
+
+        //9) 다음 스테이지로
+        function nextStage() {
+            if(index>=pokemonImg_Stage.length){
+                alert("THE END");
+                pause();
+            }
+            //pokemonArray 배열의 길이가 0이되고
+            //BossArray 배열의 길이가 0이 되었을 때
+            if(pokemonArray.length<=0 && bossArray.length<=0){
+                if(index<=pokemonArray.length-1){
+                    alert("다음 스테이지로"); //계속 호출되면 안됨
+
+                }
+
+                index++;
+                setBG();
+                createPokemon();
+                createDigimon();
+                createBoss();
+
+            }
         }
 
         /*게임 일시정지*/
@@ -198,30 +224,26 @@
             stage = document.getElementById("stage");
 
             setBG();
-            createHP();
+            setHP();
 
             createPlayer();
             createPokemon();
-            /*
-            for (let i = 1; i <= 5; i++) {
-                createPokemon();
-
-            }
-            */
             createBoss();
             createDigimon();
 
             createRamen();
+
         }
 
         function loop() {
             if (flag) {
                 bgEffect();
 
+                //플레이어의 tick()과 render()호출
                 player.tick();
                 player.render();
 
-                //몬스터볼을 담은 배열로 tick()과 render()호출
+                //몬스터볼 tick()과 render()호출
                 for (let i = 0; i < ballArray.length; i++) {
                     ballArray[i].tick();
                     ballArray[i].render();
@@ -231,23 +253,25 @@
                 for (let i = 0; i < pokemonArray.length; i++) {
                     pokemonArray[i].tick();
                     pokemonArray[i].render();
-
                 }
 
                 //보스몬스터의 tick()과 render()호출
-                boss.tick();
-                boss.render();
-                //for(let i = 0; i < bossArray.length; i++){}
+                for (let i = 0; i < bossArray.length; i++) {
+                    bossArray[i].tick();
+                    bossArray[i].render();
+                }
 
+                //디지몬의 tick()과 render()호출
                 for (let i = 0; i < digimonArray.length; i++) {
                     digimonArray[i].tick();
                     digimonArray[i].render();
-
                 }
 
                 //hp라면의 tick()과 render()호출
                 ramen.tick();
                 ramen.render();
+
+                nextStage();
             }
         }
 
@@ -256,13 +280,11 @@
 
             setInterval("loop()", 30);
 
-            //setInterval("boss.tick();", 100);
-
             //키보드 누를 때
             document.body.addEventListener("keydown", function (e) {
                 switch (e.keyCode) {
-                    case 37: movePlayerX(-8); break; //플레이어 좌, ←
-                    case 39: movePlayerX(8); break; //플레이어 우, →
+                    case 37: movePlayerX(-10); break; //플레이어 좌, ←
+                    case 39: movePlayerX(10); break; //플레이어 우, →
 
                     case 32: ball(); break; //볼 던지기, 스페이스
 

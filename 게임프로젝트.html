@@ -185,6 +185,25 @@
             }
         }
 
+        //hp 처리 함수
+        function hpPlus(){
+            //현재 몇번쨰까지가 true
+            for(let i=0; i<hpArray.length; i++){
+                if(hpArray[i].hasHeart){
+                    console.log(i, "번째에서 하트 최초발견했으므로, ", i-1, "번째에 하트 채울꼬얌");
+                }
+            }
+        }
+
+        function hpMinus(){
+            //현재 몇번쨰까지가 true
+            for(let i=0; i<hpArray.length; i++){
+                if(hpArray[i].hasHeart){
+                    console.log(i, "번째에서 하트 최초발견했으므로, ", i, "번째 하트를  대쓰로 채울꼬얌");
+                }
+            }
+        }
+
         //6) HP포션(컵라면) 생성
         function createRamen() {
             ramen = new Ramen(stage, "./images/ramen.png", 50, 50, getRandomByRange(10, 450), getRandomByRange(-1000, -800), 0, 3);

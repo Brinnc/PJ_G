@@ -106,6 +106,7 @@ class MonsterBall extends GameObject { //생성자에 rotate
                 console.log("나는디지몬이야");
                 digimonArray[i].velY++;
                 
+                hpMinus();
                 //디지몬은 볼(총알)과 충돌했을 때만 HP -1
                 //8-3) HP이미지 교체 
                 //h++; //반복문 때문에 h++를 막고 h+1로 넣으면 포션을 먹었을 때 h값을 제대로 읽어오지 못해 반영이 안됨

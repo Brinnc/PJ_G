@@ -1,4 +1,4 @@
-//스테이지별 등장 포켓몬들의 이미지 경로 배열
+ //스테이지별 등장 포켓몬들의 이미지 경로 배열
 
 let pokemonImg_Stage=[
     //스테이지 1(index=0)
@@ -24,5 +24,11 @@ let pokemonImg_Stage=[
     "po2.png", "po2.png", "po2.png", "po2.png", "po2.png", "po2.png", "po2.png", "po2.png", "po2.png", "po2.png",
     "po3.png", "po3.png", "po3.png", "po3.png", "po3.png", "po3.png", "po3.png", "po3.png", "po3.png", "po3.png",
     "po4.png", "po4.png", "po4.png", "po4.png", "po4.png", "po4.png", "po4.png", "po4.png", "po4.png", "po4.png",
-    "po5.png", "po5.png", "po5.png", "po5.png", "po5.png", "po5.png", "po5.png", "po5.png", "po5.png", "po5.png"]
+    "po5.png", "po5.png", "po5.png", "po5.png", "po5.png", "po5.png", "po5.png", "po5.png", "po5.png", "po5.png"],
+
+    //스테이지 6(index=5)
+    //스테이지 7(index=6)
+    //스테이지 8(index=7)
+    //스테이지 9(index=8)
+    //스테이지 10(index=9)
 ];

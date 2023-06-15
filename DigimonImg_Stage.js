@@ -15,6 +15,21 @@ let digimonImg_Stage=[
     ["digi1.png", "digi2.png", "digi3.png", "digi4.png"],
 
     //스테이지 5(index=4)
-    ["digi1.png", "digi2.png", "digi3.png", "digi4.png", "digi5.png"]
+    ["digi1.png", "digi2.png", "digi3.png", "digi4.png", "digi5.png"],
+
+    //스테이지 6(index=5)
+    ["digi1.png", "digi2.png", "digi3.png", "digi4.png", "digi5.png", "digi6.png"],
+
+    //스테이지 7(index=6)
+    ["digi1.png", "digi2.png", "digi3.png", "digi4.png", "digi5.png", "digi6.png", "digi7.png"],
+
+    //스테이지 8(index=7)
+    ["digi1.png", "digi2.png", "digi3.png", "digi4.png", "digi5.png", "digi6.png", "digi7.png", "digi8.png"],
+
+    //스테이지 9(index=8)
+    ["digi1.png", "digi2.png", "digi3.png", "digi4.png", "digi5.png", "digi6.png", "digi7.png", "digi8.png", "digi9.png"],
+
+    //스테이지 10(index=9)
+    ["digi1.png", "digi2.png", "digi3.png", "digi4.png", "digi5.png", "digi6.png", "digi7.png", "digi8.png", "digi9.png", "digi10.png"]
 
 ];

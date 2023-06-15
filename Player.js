@@ -59,6 +59,9 @@ class Player extends GameObject {
     }
 
     hitTest_timeItem(){ //시간 특수 아이템을 먹으면
+        //이펙트 효과음 불러오려면..?
+        //getTimeItem(); -> 오류
+
         let n=t_itemArray.length;
 
         for(let i=0; i<n; i++){

@@ -40,6 +40,7 @@ class MonsterBall extends GameObject { //생성자에 rotate
 
             if (result) { //충돌 시 
                 console.log(i + "번째 포켓몬을 잡았어!");
+                plusScore();
 
                 //1) 스테이지에서 제거
                 //1-1) 나(볼) 제거
@@ -73,6 +74,8 @@ class MonsterBall extends GameObject { //생성자에 rotate
                 boss.velY++;
 
                 if (boss.hp == 0) {
+                    plusScore();
+
                     //1) 스테이지에서 제거
                     //1-1) 나(볼) 제거
                     this.container.removeChild(this.img);
@@ -104,7 +107,7 @@ class MonsterBall extends GameObject { //생성자에 rotate
 
             if (result) {
                 console.log("나는디지몬이야");
-                digimonArray[i].velY++;
+                //digimonArray[i].velY++;
                 
                 hpMinus();
                 //디지몬은 볼(총알)과 충돌했을 때만 HP -1
@@ -112,6 +115,20 @@ class MonsterBall extends GameObject { //생성자에 rotate
                 //h++; //반복문 때문에 h++를 막고 h+1로 넣으면 포션을 먹었을 때 h값을 제대로 읽어오지 못해 반영이 안됨
                 //hpArray[h].img.src = "./images/death.png";
                 
+                //1) 스테이지에서 제거
+                //1-1) 나(볼) 제거
+                this.container.removeChild(this.img);
+                //1-2) 너(디지몬) 제거
+                this.container.removeChild(digimonArray[i].img);
+
+                //2) 배열에서 제거
+                //1-1) 나(볼) 제거
+                let myIndex = ballArray.indexOf(this);
+                ballArray.splice(myIndex, 1);
+                //1-2) 너(포켓몬) 제거
+                let yourIndex = digimonArray.indexOf(digimonArray[i]);
+                digimonArray.splice(yourIndex, 1);
+
                 break;
             }
         }

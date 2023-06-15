@@ -6,7 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>내껨</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
     <style>
+        * {
+            font-family: 'Bebas Neue', sans-serif;
+        }
+
         body {
             margin: 0%;
         }
@@ -15,7 +22,7 @@
             width: 1280px;
             height: 1000px;
             background-color: black;
-            /*background: url(./images/nintendo_rm.png);*/
+            background: url(./images/nintendo_rm.png);
             background-repeat: no-repeat;
             background-size: 1280px 1000px;
             margin: auto;
@@ -46,6 +53,19 @@
             font-size: 20px;
             font-weight: bold;
             letter-spacing: 0.25rem;
+        }
+
+        #score_text {
+            display: inline-block;
+            width: 130px;
+            margin-top: 5px;
+            border: 5px dotted maroon;
+            border-radius: 25%;
+            box-sizing: border-box;
+            background-color: burlywood;
+            font-size: 20px;
+            font-weight: bold;
+
         }
 
         #re {
@@ -116,20 +136,20 @@
         let ramen; //hp포션
         let timeItem; //시간 특수 아이템
         let index = 0; //스테이지 인덱스에 접근할 변수
+        let score = 0; //점수 변수
         let energyAlert; //레드스크린
 
         let bgY = 0; //stage배경의 y축 값 변수
 
         let ballArray = []; //기본몬스터볼을 보관할 배열
 
-
         //포켓몬 이미지경로 배열 >> 스테이지 당 개별 배열로 담아서 별도js 파일로 참조함
         //let pokemonImg = ["po1.png", "po2.png", "po3.png", "po4.png", "po5.png", "po6.png", "po7.png", "po8.png", "po9.png", "po10.png"];
         let pokemonArray = []; //포켓몬 인스턴스를 담는 배열
 
         //보스 이미지 경로 배열
-        let bossImg = ["boss1.png", "boss2.png", "거북왕.png", "리자몽.png", "이상해꽃.png",
-            "boss1.png", "boss2.png", "거북왕.png", "리자몽.png", "이상해꽃.png"];
+        let bossImg = ["boss1.png", "boss2.png", "boss3.png", "boss4.png", "boss5.png",
+            "boss6.png", "boss7.png", "boss8.png", "boss9.png", "boss10.png"];
         let bossArray = []; //보스 인스턴스 배열
 
         //디지몬 이미지경로 배열 >> 스테이지 당 개별 배열로 담아서 별도js 파일로 참조함
@@ -154,12 +174,15 @@
         let stage_textBoxBg = ["red", "orange", "yellow", "green", "blue", "midnightblue", "purple", "brown", "aqua", "lavender"];
 
         //bgm 소스 배열
-        let bgmList = ["01mu.mp3" /*"02mu.mp3", "03mu.mp3", "04mu.mp3", "05mu.mp3"*/ ];
+        let bgmList = ["01mu.mp3" /*"02mu.mp3", "03mu.mp3", "04mu.mp3", "05mu.mp3"*/];
 
         //bgm관련 변수
         let audioContainer;
-
-
+        let ballEffectContainer;
+        let hurtEffectContainer;
+        let ramenEffectContainer;
+        let timeEffectContainer;
+        let gameOverEffectContainer;
 
         let flag = false;
 
@@ -222,7 +245,7 @@
         function createDigimon() {
             for (let i = 0; i < digimonImg_Stage[index].length; i++) {
                 //container, src, width, height, x, y, velX, velY
-                digimon = new Digimon(stage, "./images/" + digimonImg_Stage[index][i], 50, 50, getRandomByRange(10, 450), getRandomByRange(-1000, 0), 0, 3);
+                digimon = new Digimon(stage, "./images/" + digimonImg_Stage[index][i], 50, 50, getRandomByRange(10, 450), getRandomByRange(-1000, -50), 0, 3);
 
                 digimonArray.push(digimon);
             }
@@ -235,7 +258,7 @@
             //x축 왔다갔다..? 움직이도록 하려면
             //보스몬스터는 일반포켓몬이 다나오고 나서 나와야할텐데
 
-            boss = new Boss(stage, "./images/" + bossImg[index], 100, 100, getRandomByRange(10, 450), getRandomByRange(-1100, -1000), 0, 2);
+            boss = new Boss(stage, "./images/" + bossImg[index], 100, 100, getRandomByRange(10, 400), getRandomByRange(-1100, -1000), 0, 2);
             bossArray.push(boss);
         }
 
@@ -243,7 +266,7 @@
         function setHP() {
             for (let i = 1; i <= 7; i++) {
                 //container, src, width, height, x, y, velX, velY
-                hp = new HP(info, "./images/heart.png", 50, 50, 50, i * 50, 0, 0);
+                hp = new HP(info, "./images/heart.png", 50, 50, 50, 50 + (i * 50), 0, 0);
 
                 hpArray.push(hp);
             }
@@ -374,17 +397,25 @@
             energyAlert = new EnergyAlert(stage, "", 500, 800, 0, 0, 0, 0);
         }
 
-        //*) 아이템 획득 충돌체크를 하는 player.js에서 audio.js의 함수가 불러와지지 않아서 쓰는 임시 함수 
-        //-> 근데 오류남 망함
-        function getTimeItem(){
+        //20) 점수 체크 함수
+        function plusScore() {
+            score++;
+        }
+        function showScore() {
+            score_text.innerText = score + " GOTCHA!";
+        }
 
-            for(let i=0; i<pokemonArray.length; i++){
-
-                if(pokemonArray[i].velY<=2){ 
-                    //시간특수아이템을 획득하면, 일반 포켓몬의 속도가 랜덤값1~2로 설정됨, 즉 속도가 디폴트값보다 느려짐(디폴트 속도는 3임)
-                    loadTimeEffect();
-                }
-            }
+        //19) 시간 특수 아이템 획득 이펙트 효과음
+        //아이템 획득 충돌체크를 하는 player.js에서 audio.js의 함수가 불러와지지 않아서 얘만 html에 옮겨둠
+        function playTimeEffect() {
+            timeEffectContainer.volume = 1;
+            timeEffectContainer.loop = false;
+            timeEffectContainer.play();
+        }
+        function loadTimeEffect() {
+            const source = document.querySelector('#timeEffectSource');
+            timeEffectContainer.load();
+            playTimeEffect();
         }
 
 
@@ -395,13 +426,11 @@
             hideStartScreen();
             flag = !flag;
 
-            
             if (flag == true) {
                 loadAudio();
             } else {
                 stopMusic();
-            }   
-                     
+            }
         }
 
         function init() {
@@ -409,7 +438,13 @@
             stage_text = document.getElementById("stage_text");
             bt = document.getElementById("bt");
             stage = document.getElementById("stage");
+
             audioContainer = document.getElementById("audioContainer");
+            ballEffectContainer = document.getElementById("ballEffectContainer");
+            hurtEffectContainer = document.getElementById("hurtEffectContainer");
+            ramenEffectContainer = document.getElementById("ramenEffectContainer");
+            timeEffectContainer = document.getElementById("timeEffectContainer");
+            gameOverEffectContainer = document.getElementById("gameOverEffectContainer");
 
             setBG();
             setHP();
@@ -427,6 +462,7 @@
         function loop() {
             if (flag) {
                 bgEffect();
+                showScore();
 
                 //플레이어의 tick()과 render()호출
                 player.tick();
@@ -502,7 +538,9 @@
 <body>
     <div id="wrapper">
         <div id="info">
-            <span id="stage_text">STAGE 1</span>
+            <span id="stage_text" style="text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;">STAGE
+                1</span>
+            <span id="score_text">0 GOTCHA!</span>
             <img src="./images/reset.png" id="re" onClick="gameReset()">
             <img src="./images/play.png" id="bt" onClick="pause()">
             <img src="./images/Rlogo.png" id="logo">
@@ -517,7 +555,7 @@
         </audio>
     -->
     <audio id="audioContainer">
-        <source id="audioSource" src="./bgm/victory-screen-150573.mp3">
+        <source id="audioSource" src="./bgm/02mu.mp3">
     </audio>
     <audio id="ballEffectContainer">
         <source id="ballEffectSource" src="./effect/cartoon-jump-6462.mp3">

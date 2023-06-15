@@ -61,6 +61,7 @@ function loadRamenEffect() {
     playRamenEffect();
 }
 
+/*------------------------------------------------->html문서로 이동함
 //19) 시간 특수 아이템 획득 이펙트 효과음
 function playTimeEffect(){
     timeEffectContainer.volume = 1;
@@ -72,6 +73,7 @@ function loadTimeEffect() {
     timeEffectContainer.load();
     playTimeEffect();
 }
+----------------------------------------------------------------------*/
 
 //20) 게임 오버 이펙트 효과음
 function playGameOverEffect(){

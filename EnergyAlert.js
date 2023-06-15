@@ -24,7 +24,7 @@ class EnergyAlert extends GameObject {
     }
 
     //energyAlert.flag=true -> 블링크 호출 
-    //energyAlert.flag=false-> 더이상 깜빡이진 않는데 화면이 랜덤임
+    //energyAlert.flag=false-> 더이상 깜빡이진 않는데 멈추는 화면이 랜덤임(빨갛거나 아니거나)
     
     blink() {
         if (this.flag) {

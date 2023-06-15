@@ -69,6 +69,7 @@ class Player extends GameObject {
 
             if(result){ //플레이어가 먹으면(충돌 시)
                 console.log("시간을 지배하는 자~!");
+                loadTimeEffect();
 
                 //스테이지의 포켓몬들의 속도를 줄이기
                 for(let p=0; p<pokemonArray.length; p++){

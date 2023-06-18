@@ -1,8 +1,3 @@
-/*-----------------------------------------------------------------
-오디오 플레이 함수 모음
------------------------------------------------------------------*/
-
-//15) bgm
 function playMusic() {
     audioContainer.volume = 1;
     audioContainer.loop = true;
@@ -15,17 +10,8 @@ function loadAudio() {
     const source = document.querySelector('#audioSource');
     audioContainer.load();
     playMusic();
-    /*
-    for(let i=0; i<bgmList.length; i++){
-        const source = document.querySelector('#audioSource');
-        source.src = bgmList[i];
-        audioContainer.load();
-        playMusic();
-    }
-    */
 }
 
-//16) 볼 이펙트 효과음
 function playBallEffect() {
     ballEffectContainer.volume = 1;
     ballEffectContainer.loop = false;
@@ -37,7 +23,6 @@ function loadEffect() {
     playBallEffect();
 }
 
-//17) hp마이너스 이펙트 효과음
 function playHurtEffect() {
     hurtEffectContainer.volume = 1;
     hurtEffectContainer.loop = false;
@@ -49,7 +34,6 @@ function loadHurtEffect() {
     playHurtEffect();
 }
 
-//18) hp플러스 이펙트 효과음
 function playRamenEffect(){
     ramenEffectContainer.volume = 1;
     ramenEffectContainer.loop = false;
@@ -61,21 +45,6 @@ function loadRamenEffect() {
     playRamenEffect();
 }
 
-/*------------------------------------------------->html문서로 이동함
-//19) 시간 특수 아이템 획득 이펙트 효과음
-function playTimeEffect(){
-    timeEffectContainer.volume = 1;
-    timeEffectContainer.loop = false;
-    timeEffectContainer.play();
-}
-function loadTimeEffect() {
-    const source = document.querySelector('#timeEffectSource');
-    timeEffectContainer.load();
-    playTimeEffect();
-}
-----------------------------------------------------------------------*/
-
-//20) 게임 오버 이펙트 효과음
 function playGameOverEffect(){
     gameOverEffectContainer.volume = 1;
     gameOverEffectContainer.loop = false;

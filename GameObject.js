@@ -1,4 +1,3 @@
-//게임obj의 최상위 클래스
 class GameObject {
     constructor(container, src, width, height, x, y, velX, velY) {
         this.container = container;
